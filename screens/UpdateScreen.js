@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, TouchableOpacity, Alert } from "react-native";
+import React, { useState } from "react";
+import { Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, Alert } from "react-native";
 import Database from "../Database";
 
 const UpdateScreen = ({ navigation, route }) => {
@@ -14,13 +14,10 @@ const UpdateScreen = ({ navigation, route }) => {
 
 
   const handleSave = async () => {
-    // Kiểm tra điều kiện validate
     if (!name || !location || !date || !parking || !length || !difficulty || !description) {
       Alert.alert("Validation Error", "Please fill in all fields before saving.");
       return;
     }
-  
-    // Thay đổi thông báo
     Alert.alert(
       "Are you sure you want to update?",
       "Your information will be updated.",
