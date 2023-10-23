@@ -1,20 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import React, { useEffect } from "react";
+import Database from "./Database";
+import DetailScreen from "./screens/DetailScreen";
+import EntryScreen from "./screens/EntryScreen";
+import HomeScreen from "./screens/HomeScreen";
+import UpdateScreen from "./screens/UpdateScreen";
+const Stack = createStackNavigator();
 
-export default function App() {
+const App = () => {
+  useEffect(() => {
+    Database.initDatabase();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Hello world</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Add new hike" component={EntryScreen} />
+        <Stack.Screen name="Information Detail" component={DetailScreen} />
+        <Stack.Screen name="Update Information" component={UpdateScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
