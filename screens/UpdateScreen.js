@@ -9,12 +9,24 @@ const UpdateScreen = ({ navigation, route }) => {
   const [date, setDate] = useState(hike.date);
   const [parking, setParking] = useState(hike.parking);
   const [length, setLength] = useState(hike.length);
+  const [weatherForecast, setWeatherForecast] = useState(hike.weatherForecast);
+  const [estimatedTime, setTimeEstimated] = useState(hike.estimatedTime);
   const [difficulty, setDifficulty] = useState(hike.difficulty);
   const [description, setDescription] = useState(hike.description);
 
 
   const handleSave = async () => {
-    if (!name || !location || !date || !parking || !length || !difficulty || !description) {
+    if (
+      !name || 
+      !location || 
+      !date || 
+      !parking || 
+      !length || 
+      !weatherForecast || 
+      !estimatedTime || 
+      !difficulty || 
+      !description
+    ){
       Alert.alert("Validation Error", "Please fill in all fields before saving.");
       return;
     }
@@ -38,6 +50,8 @@ const UpdateScreen = ({ navigation, route }) => {
               const updatedDate = date;
               const updatedParking = parking;
               const updatedLength = length;
+              const updatedWeatherForecast = weatherForecast;
+              const updatedEstimatedTime = estimatedTime;
               const updatedDifficulty = difficulty;
               const updatedDescription = description;
   
@@ -48,6 +62,8 @@ const UpdateScreen = ({ navigation, route }) => {
                 updatedDate,
                 updatedParking,
                 updatedLength,
+                updatedWeatherForecast,
+                updatedEstimatedTime,
                 updatedDifficulty,
                 updatedDescription
               );
@@ -64,6 +80,8 @@ const UpdateScreen = ({ navigation, route }) => {
                         date: updatedDate,
                         parking: updatedParking,
                         length: updatedLength,
+                        weatherForecast: updatedWeatherForecast,
+                        estimatedTime: updatedEstimatedTime,
                         difficulty: updatedDifficulty,
                         description: updatedDescription,
                       },
@@ -117,6 +135,20 @@ const UpdateScreen = ({ navigation, route }) => {
         value={length}
         onChangeText={setLength}
         placeholder="Enter length"
+      />
+      <Text style={styles.label}>Weather Forecast:</Text>
+      <TextInput
+        style={styles.input}
+        value={weatherForecast}
+        onChangeText={setWeatherForecast}
+        placeholder="Enter weather forecast"
+      />
+      <Text style={styles.label}>Time Estimated:</Text>
+      <TextInput
+        style={styles.input}
+        value={estimatedTime}
+        onChangeText={setTimeEstimated}
+        placeholder="Enter time estimated"
       />
       <Text style={styles.label}>Difficulty Level:</Text>
       <TextInput

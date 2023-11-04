@@ -15,20 +15,43 @@ const EntryScreen = ({ navigation }) => {
   const [date, setDate] = useState(""); 
   const [parking, setParking] = useState(""); 
   const [length, setLength] = useState("");
+  const [weatherForecast, setWeatherForecast] = useState("");
+  const [estimatedTime, setTimeEstimated] = useState("");
   const [difficulty, setDifficulty] = useState(""); 
   const [description, setDescription] = useState(""); 
 
   const handleAddTodo = async () => {
-    if (!name || !location || !date || !parking || !length || !difficulty || !description) {
+    if (
+      !name || 
+      !location || 
+      !date || 
+      !parking || 
+      !length || 
+      !weatherForecast || 
+      !estimatedTime || 
+      !difficulty || 
+      !description
+    ){
       Alert.alert("Error", "Please enter all the required information");
       return;
     }
-    await Database.addNewHike(name, location, date, parking, length, difficulty, description);
+    await Database.addNewHike(
+      name, 
+      location, 
+      date, 
+      parking, 
+      length, 
+      weatherForecast, 
+      estimatedTime,
+      difficulty, 
+      description
+    );
     navigation.goBack();
   };
 
   return (
-    <ScrollView  style={styles.container}>
+    <ScrollView style={styles.container}>
+
       <Text style={styles.label}>Name:</Text> 
       <TextInput
         style={styles.input}
@@ -36,6 +59,7 @@ const EntryScreen = ({ navigation }) => {
         onChangeText={setName}
         placeholder="Enter name"
       />
+
       <Text style={styles.label}>Location:</Text> 
       <TextInput
         style={styles.input}
@@ -43,6 +67,7 @@ const EntryScreen = ({ navigation }) => {
         onChangeText={setLocation}
         placeholder="Enter location"
       />
+
       <Text style={styles.label}>Date:</Text> 
       <TextInput
         style={styles.input}
@@ -50,6 +75,7 @@ const EntryScreen = ({ navigation }) => {
         onChangeText={setDate}
         placeholder="Enter date"
       />
+
       <Text style={styles.label}>Parking:</Text> 
       <TextInput
         style={styles.input}
@@ -66,6 +92,22 @@ const EntryScreen = ({ navigation }) => {
         placeholder="Enter length"
       />
 
+      <Text style={styles.label}>Weather Forecast:</Text> 
+      <TextInput
+        style={styles.input}
+        value={weatherForecast}
+        onChangeText={setWeatherForecast}
+        placeholder="Enter weather forecast"
+      />
+
+      <Text style={styles.label}>Time Estimated:</Text> 
+      <TextInput
+        style={styles.input}
+        value={estimatedTime}
+        onChangeText={setTimeEstimated}
+        placeholder="Enter time estimated"
+      />
+
       <Text style={styles.label}>Difficulty Level:</Text> 
       <TextInput
         style={styles.input}
@@ -79,7 +121,7 @@ const EntryScreen = ({ navigation }) => {
         style={styles.input}
         value={description}
         onChangeText={setDescription}
-        placeholder="Enter difficulty level"
+        placeholder="Enter description"
       />
 
 
@@ -94,6 +136,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+
   },
   label: {
     fontWeight: "bold",

@@ -35,6 +35,16 @@ const DetailScreen = ({ route, navigation }) => {
         <Text style={styles.inputText}>{hike.length}</Text>
       </View>
 
+      <Text style={styles.label}>Weather Forecast:</Text>
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputText}>{hike.weatherForecast}</Text>
+      </View>
+
+      <Text style={styles.label}>Time Estimated:</Text>
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputText}>{hike.estimatedTime}</Text>
+      </View>
+
       <Text style={styles.label}>Difficulty Level:</Text>
       <View style={styles.inputContainer}>
         <Text style={styles.inputText}>{hike.difficulty}</Text>
