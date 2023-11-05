@@ -15,6 +15,8 @@ import {
 import Database from "../Database";
 
 const EntryScreen = ({ navigation }) => {
+
+  // State variables
   const [name, setName] = useState(""); 
   const [location, setLocation] = useState(""); 
   const [date, setDate] = useState(new Date(1598051730000));
@@ -24,14 +26,17 @@ const EntryScreen = ({ navigation }) => {
   const [length, setLength] = useState("");
   const [weatherForecast, setWeatherForecast] = useState("");
   const [estimatedTime, setTimeEstimated] = useState("");
+  const [showTime, setShowTime] = useState(false); // Additional state for time picker
   const [difficulty, setDifficulty] = useState(""); 
   const [description, setDescription] = useState(""); 
   const [dateButtonText, setDateButtonText] = useState("Show date picker!");
 
+  // Function to handle parking selection
   const handleParkingSelection = (value) => {
     setParking(value);
   };
 
+  // Date picker change handler
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow(false);
@@ -51,14 +56,18 @@ const EntryScreen = ({ navigation }) => {
     setMode(currentMode);
   };
 
+  // Show date picker
   const showDatepicker = () => {
     showMode('date');
   };
 
+  // Show time picker
   const showTimepicker = () => {
     showMode('time');
+    setShowTime(true); // Show time picker
   };
 
+  // Function to handle the addition of a new hike
   const handleAddTodo = async () => {
     if (
       !name || 
@@ -74,13 +83,21 @@ const EntryScreen = ({ navigation }) => {
       Alert.alert("Error", "Please enter all the required information");
       return;
     }
-  
+
+
+    // Convert date to ISO string
     const formattedDate = date.toISOString(); // Convert date to ISO string
+    const time = new Date(estimatedTime).toTimeString().split(' ')[0]; // Convert estimatedTime to time
+
+    // Combine the date and time together
+    const dateTime = `${formattedDate.slice(0, 10)}T${time}`;
+    
+    // Call the function to add a new hike to the database
     await Database.addNewHike(
       name, 
       location, 
-      formattedDate, // Use the formatted date
-      parking, 
+      formattedDate,
+      parking,
       length, 
       weatherForecast, 
       estimatedTime,
@@ -187,12 +204,22 @@ const EntryScreen = ({ navigation }) => {
       </Picker>
 
       <Text>Time Start</Text>
-      <TextInput
-        style={styles.input}
-        value={estimatedTime}
-        onChangeText={(text) => setTimeEstimated(text)}
-        placeholder="Enter time start"
-      />
+      <Button onPress={showTimepicker} title={estimatedTime ? estimatedTime : 'Select Time'} />
+          {showTime && (
+            <DateTimePicker
+              value={new Date()} // Current time value
+              mode="time"
+              is24Hour={true}
+              display="default"
+              onChange={(event, selectedTime) => {
+                if (event.type === 'set') {
+                  setShowTime(false);
+                  const time = selectedTime.toLocaleTimeString().split(' ')[0]; // Format time
+                  setTimeEstimated(time);
+                }
+              }}
+            />
+          )}
 
       <Text>Difficulty Level</Text>
       <Picker
@@ -213,7 +240,6 @@ const EntryScreen = ({ navigation }) => {
         onChangeText={(text) => setDescription(text)}
         placeholder="Enter description"
       />
-
       <TouchableOpacity style={{ backgroundColor: 'green', padding: 16, borderRadius: 4 }} onPress={handleAddTodo}>
         <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Add Hike</Text>
       </TouchableOpacity>
