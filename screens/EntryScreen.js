@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import { Picker as SelectPicker } from '@react-native-picker/picker';
+import DatePicker from 'react-native-date-picker'
 import {
+  View,
   Alert,
   StyleSheet,
   Text,
+  Button,
   TextInput,
   TouchableOpacity,
   ScrollView,
@@ -12,13 +16,18 @@ import Database from "../Database";
 const EntryScreen = ({ navigation }) => {
   const [name, setName] = useState(""); 
   const [location, setLocation] = useState(""); 
-  const [date, setDate] = useState(""); 
-  const [parking, setParking] = useState(""); 
+  const [date, setDate] = useState(new Date())
+  const [open, setOpen] = useState(false)
+  const [parking, setParking] = useState(null);
   const [length, setLength] = useState("");
   const [weatherForecast, setWeatherForecast] = useState("");
   const [estimatedTime, setTimeEstimated] = useState("");
   const [difficulty, setDifficulty] = useState(""); 
   const [description, setDescription] = useState(""); 
+
+  const handleParkingSelection = (value) => {
+    setParking(value);
+  };
 
   const handleAddTodo = async () => {
     if (
@@ -51,84 +60,122 @@ const EntryScreen = ({ navigation }) => {
 
   return (
     <ScrollView style={styles.container}>
-
-      <Text style={styles.label}>Name:</Text> 
+    <View style={styles.label}>
+      <Text>Name of the hike</Text>
       <TextInput
         style={styles.input}
         value={name}
-        onChangeText={setName}
+        onChangeText={(text) => setName(text)}
         placeholder="Enter name"
       />
 
-      <Text style={styles.label}>Location:</Text> 
+      <Text>Location</Text>
       <TextInput
         style={styles.input}
         value={location}
-        onChangeText={setLocation}
+        onChangeText={(text) => setLocation(text)}
         placeholder="Enter location"
       />
 
-      <Text style={styles.label}>Date:</Text> 
-      <TextInput
-        style={styles.input}
-        value={date}
-        onChangeText={setDate}
-        placeholder="Enter date"
-      />
+      <Text>Date of the hike</Text>
+      <DatePicker date={date} onDateChange={setDate} />
 
-      <Text style={styles.label}>Parking:</Text> 
-      <TextInput
-        style={styles.input}
-        value={parking}
-        onChangeText={setParking}
-        placeholder="Enter parking"
-      />
+      <Text>Parking Available</Text>
+      <View style={styles.radioGroup}>
+        <TouchableOpacity
+          style={styles.radioButtonLabelYes}
+          onPress={() => handleParkingSelection('yes')}
+        >
+          <View
+            style={{
+              width: 20,
+              height: 20,
+              borderRadius: 10,
+              borderWidth: 1,
+              borderColor: parking === 'yes' ? 'green' : 'black',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            {parking === 'yes' && <View style={styles.selectedRadioButton} />}
+          </View>
+          <Text style={{ marginLeft: 8 }}>Yes</Text>
+        </TouchableOpacity>
 
-      <Text style={styles.label}>Length:</Text> 
+        <TouchableOpacity
+          style={styles.radioButtonLabelNo}
+          onPress={() => handleParkingSelection('no')}
+        >
+          <View
+            style={{
+              width: 20,
+              height: 20,
+              borderRadius: 10,
+              borderWidth: 1,
+              borderColor: parking === 'no' ? 'green' : 'black',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            {parking === 'no' && <View style={styles.selectedRadioButton} />}
+          </View>
+          <Text style={{ marginLeft: 8 }}>No</Text>
+        </TouchableOpacity>
+      </View>
+
+      <Text>Length of the hike</Text>
       <TextInput
         style={styles.input}
         value={length}
-        onChangeText={setLength}
+        onChangeText={(text) => setLength(text)}
         placeholder="Enter length"
       />
 
-      <Text style={styles.label}>Weather Forecast:</Text> 
-      <TextInput
-        style={styles.input}
-        value={weatherForecast}
-        onChangeText={setWeatherForecast}
-        placeholder="Enter weather forecast"
-      />
+      <Text>Weather Forecast</Text>
+      <SelectPicker
+        selectedValue={weatherForecast}
+        onValueChange={(itemValue, itemIndex) =>
+          setWeatherForecast(itemValue)
+        }>
+        <SelectPicker.Item label="Sunny" value="Sunny" />
+        <SelectPicker.Item label="Rainy" value="Rainy" />
+        <SelectPicker.Item label="Cloudy" value="Cloudy" />
+        <SelectPicker.Item label="Snowy" value="Snowy" />
+      </SelectPicker>
 
-      <Text style={styles.label}>Time Estimated:</Text> 
+      <Text>Time Start</Text>
       <TextInput
         style={styles.input}
         value={estimatedTime}
-        onChangeText={setTimeEstimated}
-        placeholder="Enter time estimated"
+        onChangeText={(text) => setTimeEstimated(text)}
+        placeholder="Enter time start"
       />
 
-      <Text style={styles.label}>Difficulty Level:</Text> 
-      <TextInput
-        style={styles.input}
-        value={difficulty}
-        onChangeText={setDifficulty}
-        placeholder="Enter difficulty level"
-      />
+      <Text>Difficulty Level</Text>
+      <SelectPicker
+        selectedValue={difficulty}
+        onValueChange={(itemValue, itemIndex) =>
+          setWeatherForecast(itemValue)
+        }>
+        <SelectPicker.Item label="Easy" value="Easy" />
+        <SelectPicker.Item label="Moderate" value="Moderate" />
+        <SelectPicker.Item label="Difficult" value="Difficult" />
+      </SelectPicker>
 
-      <Text style={styles.label}>Description:</Text> 
+
+      <Text>Description</Text>
       <TextInput
         style={styles.input}
         value={description}
-        onChangeText={setDescription}
+        onChangeText={(text) => setDescription(text)}
         placeholder="Enter description"
       />
 
-
-      <TouchableOpacity style={styles.addButton} onPress={handleAddTodo}>
-        <Text style={styles.addButtonText}>Add Hike</Text> 
+      <TouchableOpacity style={{ backgroundColor: 'green', padding: 16, borderRadius: 4 }} onPress={handleAddTodo}>
+        <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Add Hike</Text>
       </TouchableOpacity>
-    </ScrollView >
+    </View>
+  </ScrollView>
   );
 };
 
@@ -159,6 +206,26 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
   },
+  radioGroup: {
+    flexDirection: 'row',
+    marginTop: 10,
+    marginBottom: 10
+  },
+  radioButtonLabelYes: {
+    flexDirection: 'row', 
+    alignItems: 'center'
+  },
+  radioButtonLabelNo: {
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    marginLeft: 20
+  },
+  selectedRadioButton: {
+    width: 10, 
+    height: 10, 
+    borderRadius: 5, 
+    backgroundColor: 'green'
+  }
 });
 
 export default EntryScreen;
