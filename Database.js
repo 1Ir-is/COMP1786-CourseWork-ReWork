@@ -1,6 +1,6 @@
 import * as SQLite from "expo-sqlite";
 
-const database_name = "dabase.db";
+const database_name = "database.db";
 const database_version = "1.0";
 const database_displayname = "My App Database";
 const database_size = 200000;
@@ -22,6 +22,8 @@ const initDatabase = () => {
         date TEXT,         
         parking TEXT,      
         length TEXT,       
+        weatherForecast TEXT,       
+        estimatedTime TEXT,       
         difficulty TEXT ,      
         description TEXT
       );`,
@@ -66,12 +68,12 @@ const deleteHikeInformation = (id) => {
   });
 };
 
-const addNewHike = (name, location, date, parking, length, difficulty, description) => {
+const addNewHike = (name, location, date, parking, length, weatherForecast, estimatedTime, difficulty, description) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        "INSERT INTO hikes (name, location, date, parking, length, difficulty, description) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [name, location, date, parking, length, difficulty, description],
+        "INSERT INTO hikes (name, location, date, parking, length, weatherForecast, estimatedTime, difficulty, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [name, location, date, parking, length, weatherForecast, estimatedTime, difficulty, description],
         (_, { insertId }) => {
           resolve(insertId);
         },
@@ -83,12 +85,12 @@ const addNewHike = (name, location, date, parking, length, difficulty, descripti
   });
 };
 
-const updateHikeInformation = (id, name, location, date, parking, length, difficulty, description) => {
+const updateHikeInformation = (id, name, location, date, parking, length, weatherForecast, estimatedTime, difficulty, description) => {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
-          "UPDATE hikes SET name = ?, location = ?, date = ?, parking = ?, length = ?, difficulty = ?, description = ? WHERE id = ?",
-          [name, location, date, parking, length, difficulty, description, id],
+          "UPDATE hikes SET name = ?, location = ?, date = ?, parking = ?, length = ?, weatherForecast = ?, estimatedTime = ?,  difficulty = ?, description = ? WHERE id = ?",
+          [name, location, date, parking, length, weatherForecast, estimatedTime, difficulty, description, id],
           (_, result) => {
             resolve(result);
           },
