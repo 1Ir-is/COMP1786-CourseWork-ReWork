@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Picker } from '@react-native-picker/picker';
-
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import {
   View,
@@ -17,16 +17,46 @@ import Database from "../Database";
 const EntryScreen = ({ navigation }) => {
   const [name, setName] = useState(""); 
   const [location, setLocation] = useState(""); 
-  const [date, setDate] = useState()
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
   const [parking, setParking] = useState(null);
   const [length, setLength] = useState("");
   const [weatherForecast, setWeatherForecast] = useState("");
   const [estimatedTime, setTimeEstimated] = useState("");
   const [difficulty, setDifficulty] = useState(""); 
   const [description, setDescription] = useState(""); 
+  const [dateButtonText, setDateButtonText] = useState("Show date picker!");
 
   const handleParkingSelection = (value) => {
     setParking(value);
+  };
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+
+    // Format date to display on the button
+    const day = currentDate.getDate();
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
+    const formattedDate = `${day}/${month}/${year}`;
+
+    setDateButtonText(formattedDate);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const showTimepicker = () => {
+    showMode('time');
   };
 
   const handleAddTodo = async () => {
@@ -44,10 +74,12 @@ const EntryScreen = ({ navigation }) => {
       Alert.alert("Error", "Please enter all the required information");
       return;
     }
+  
+    const formattedDate = date.toISOString(); // Convert date to ISO string
     await Database.addNewHike(
       name, 
       location, 
-      date, 
+      formattedDate, // Use the formatted date
       parking, 
       length, 
       weatherForecast, 
@@ -57,6 +89,7 @@ const EntryScreen = ({ navigation }) => {
     );
     navigation.goBack();
   };
+  
 
   return (
     <ScrollView style={styles.container}>
@@ -77,13 +110,18 @@ const EntryScreen = ({ navigation }) => {
         placeholder="Enter location"
       />
 
-      <Text>Date</Text>
-      <TextInput
-        style={styles.input}
-        value={date}
-        onChangeText={(text) => setDate(text)}
-        placeholder="Enter date"
-      />
+      <Text>Date of the hike</Text>
+        <Button onPress={showDatepicker} title={dateButtonText} />
+        {show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode={mode}
+            is24Hour={true}
+            display="default"
+            onChange={onChange}
+          />
+        )}
 
       <Text>Parking Available</Text>
       <View style={styles.radioGroup}>
