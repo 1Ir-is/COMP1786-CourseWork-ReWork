@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Picker as SelectPicker } from '@react-native-picker/picker';
-import DatePicker from 'react-native-date-picker'
+import { Picker } from '@react-native-picker/picker';
+
+
 import {
   View,
   Alert,
@@ -16,8 +17,7 @@ import Database from "../Database";
 const EntryScreen = ({ navigation }) => {
   const [name, setName] = useState(""); 
   const [location, setLocation] = useState(""); 
-  const [date, setDate] = useState(new Date())
-  const [open, setOpen] = useState(false)
+  const [date, setDate] = useState()
   const [parking, setParking] = useState(null);
   const [length, setLength] = useState("");
   const [weatherForecast, setWeatherForecast] = useState("");
@@ -77,8 +77,13 @@ const EntryScreen = ({ navigation }) => {
         placeholder="Enter location"
       />
 
-      <Text>Date of the hike</Text>
-      <DatePicker date={date} onDateChange={setDate} />
+      <Text>Date</Text>
+      <TextInput
+        style={styles.input}
+        value={date}
+        onChangeText={(text) => setDate(text)}
+        placeholder="Enter date"
+      />
 
       <Text>Parking Available</Text>
       <View style={styles.radioGroup}>
@@ -132,16 +137,16 @@ const EntryScreen = ({ navigation }) => {
       />
 
       <Text>Weather Forecast</Text>
-      <SelectPicker
+      <Picker
         selectedValue={weatherForecast}
         onValueChange={(itemValue, itemIndex) =>
           setWeatherForecast(itemValue)
         }>
-        <SelectPicker.Item label="Sunny" value="Sunny" />
-        <SelectPicker.Item label="Rainy" value="Rainy" />
-        <SelectPicker.Item label="Cloudy" value="Cloudy" />
-        <SelectPicker.Item label="Snowy" value="Snowy" />
-      </SelectPicker>
+        <Picker.Item label="Sunny" value="Sunny" />
+        <Picker.Item label="Rainy" value="Rainy" />
+        <Picker.Item label="Cloudy" value="Cloudy" />
+        <Picker.Item label="Snowy" value="Snowy" />
+      </Picker>
 
       <Text>Time Start</Text>
       <TextInput
@@ -152,15 +157,15 @@ const EntryScreen = ({ navigation }) => {
       />
 
       <Text>Difficulty Level</Text>
-      <SelectPicker
+      <Picker
         selectedValue={difficulty}
         onValueChange={(itemValue, itemIndex) =>
-          setWeatherForecast(itemValue)
+          setDifficulty(itemValue)
         }>
-        <SelectPicker.Item label="Easy" value="Easy" />
-        <SelectPicker.Item label="Moderate" value="Moderate" />
-        <SelectPicker.Item label="Difficult" value="Difficult" />
-      </SelectPicker>
+        <Picker.Item label="Easy" value="Easy" />
+        <Picker.Item label="Moderate" value="Moderate" />
+        <Picker.Item label="Difficult" value="Difficult" />
+      </Picker>
 
 
       <Text>Description</Text>
