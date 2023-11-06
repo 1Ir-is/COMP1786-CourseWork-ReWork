@@ -5,7 +5,6 @@ const SearchScreen = () => {
   const [searchText, setSearchText] = useState("");
 
   const handleSearch = () => {
-    // Xử lý tìm kiếm khi bấm nút Search
     console.log("Searching for: " + searchText);
   };
 
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingLeft: 10,
     paddingRight: 10,
-    backgroundColor: "#fff", // Màu nền
+    backgroundColor: "#fff",
   },
   input: {
     flex: 1,
@@ -52,12 +51,12 @@ const styles = StyleSheet.create({
     borderWidth: 0,
   },
   buttonContainer: {
-    width: 335, // Đặt kích thước của nút bằng với khung search
-    top: 10, // Điều chỉnh khoảng cách từ nút đến `searchBox`
-    alignItems: "center", // Đặt nút ở giữa theo chiều ngang
+    width: 335, 
+    top: 10,
+    alignItems: "center", 
   },
   button: {
-    width: "100%", // Đặt chiều rộng của nút bằng với khung search
+    width: "100%", 
   },
 });
 

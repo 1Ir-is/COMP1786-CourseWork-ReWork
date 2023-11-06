@@ -1,6 +1,7 @@
 import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
+  ToastAndroid,
   FlatList,
   StyleSheet,
   Text,
@@ -8,6 +9,7 @@ import {
   View,
 } from "react-native";
 import Database from "../Database";
+import { FAB } from "react-native-paper";
 
 const HomeScreen = ({ navigation }) => {
   const [hikes, setHikes] = useState([]);
@@ -26,11 +28,22 @@ const HomeScreen = ({ navigation }) => {
     fetchData();
   }, [isFocused]);
 
+  function showToast(message) {
+    ToastAndroid.show(message, ToastAndroid.SHORT);
+  }
+
   const handleDeleteHikeInformation = async (id) => {
     await Database.deleteHikeInformation(id);
     const data = await Database.getHikerInformation();
     setHikes(data);
+    showToast("Delete Successfully!");
   };
+
+  const handleDeleteAllHikeInformation = async (id) => {
+    await Database.deleteAllHikeInformation(id);
+    setHikes([]);
+    showToast("Delete All Successfully!");
+  }
 
   const renderTodoItem = ({ item }) => (
     <TouchableOpacity
@@ -42,7 +55,11 @@ const HomeScreen = ({ navigation }) => {
         style={styles.deleteButton}
         onPress={() => handleDeleteHikeInformation(item.id)}
       >
-        <Text style={styles.deleteButtonText}>Delete</Text>
+        <Text 
+          style={styles.deleteButtonText}
+        >
+          Delete
+        </Text>
       </TouchableOpacity>
     </TouchableOpacity>
   );
@@ -54,13 +71,26 @@ const HomeScreen = ({ navigation }) => {
         renderItem={renderTodoItem}
         keyExtractor={(item) => item.id.toString()}
       />
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => navigation.navigate("Add new hike")}
-      >
-        <Text style={styles.addButtonText}>Add Hike</Text>
-      </TouchableOpacity>
+
+        <View style = {styles.deleteAll}>
+          <FAB
+            style={styles.fab}
+            icon="delete"
+            label="Delete All"
+            onPress={handleDeleteAllHikeInformation}
+          />
+        </View>
+
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => navigation.navigate("Add new hike")}
+        >
+          <Text style={styles.addButtonText}>Add Hike</Text>
+        </TouchableOpacity>
+
     </View>
+    
+    
   );
 };
 
@@ -93,6 +123,17 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
   },
+  deleteAll: {
+    flex: 1,
+    padding: 16,
+    marginBottom: 15
+  },
+  fab: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0
+  }
 });
 
 export default HomeScreen;

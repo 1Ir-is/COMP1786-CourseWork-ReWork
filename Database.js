@@ -68,6 +68,23 @@ const deleteHikeInformation = (id) => {
   });
 };
 
+const deleteAllHikeInformation = () => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "DELETE FROM hikes",
+        [],
+        () => {
+          resolve();
+        },
+        (_, error) => {
+          reject(error);
+        }
+      );
+    });
+  });
+};
+
 const addNewHike = (name, location, date, parking, length, weatherForecast, estimatedTime, difficulty, description) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
@@ -107,7 +124,8 @@ const Database = {
   addNewHike,
   getHikerInformation,
   deleteHikeInformation,
-  updateHikeInformation
+  updateHikeInformation,
+  deleteAllHikeInformation
 };
 
 export default Database;
