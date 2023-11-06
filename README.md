@@ -42,7 +42,7 @@ To resolve this issue, you can utilize this command below to ensure that the cor
 npx expo install @react-native-picker/picker@2.4.10 expo-sqlite@~11.3.3 react-native-gesture-handler@~2.12.0 react-native-reanimated@~3.3.0 react-native-screens@~3.22.0
 ```
 ## Contributing
-We welcome contributions in the form of:
+I welcome contributions in the form of:
 - Reporting issues
 - Suggesting enhancements
 - Opening pull requests
