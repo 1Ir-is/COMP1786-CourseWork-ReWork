@@ -24,8 +24,7 @@ const UpdateScreen = ({ navigation, route }) => {
       !length || 
       !weatherForecast || 
       !estimatedTime || 
-      !difficulty || 
-      !description
+      !difficulty 
     ){
       Alert.alert("Validation Error", "Please fill in all fields before saving.");
       return;
@@ -101,68 +100,68 @@ const UpdateScreen = ({ navigation, route }) => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.label}>Name:</Text>
+      <Text style={styles.label}>Name of the hike <Text style={{ color: 'red' }}>*</Text></Text>
       <TextInput
         style={styles.input}
         value={name}
         onChangeText={setName}
         placeholder="Enter name"
       />
-      <Text style={styles.label}>Location:</Text>
+      <Text style={styles.label}>Location <Text style={{ color: 'red' }}>*</Text></Text>
       <TextInput
         style={styles.input}
         value={location}
         onChangeText={setLocation}
         placeholder="Enter location"
       />
-      <Text style={styles.label}>Date:</Text>
+      <Text style={styles.label}>Date of the hike <Text style={{ color: 'red' }}>*</Text></Text>
       <TextInput
         style={styles.input}
         value={date}
         onChangeText={setDate}
         placeholder="Enter date"
       />
-      <Text style={styles.label}>Parking:</Text>
+      <Text style={styles.label}>Parking Available <Text style={{ color: 'red' }}>*</Text></Text>
       <TextInput
         style={styles.input}
         value={parking}
         onChangeText={setParking}
         placeholder="Enter parking"
       />
-      <Text style={styles.label}>Length:</Text>
+      <Text style={styles.label}> Length of the hike <Text style={{ color: 'red' }}>*</Text></Text>
       <TextInput
         style={styles.input}
         value={length}
         onChangeText={setLength}
         placeholder="Enter length"
       />
-      <Text style={styles.label}>Weather Forecast:</Text>
+      <Text style={styles.label}>Weather Forecast <Text style={{ color: 'red' }}>*</Text></Text>
       <TextInput
         style={styles.input}
         value={weatherForecast}
         onChangeText={setWeatherForecast}
         placeholder="Enter weather forecast"
       />
-      <Text style={styles.label}>Time Estimated:</Text>
+      <Text style={styles.label}>Time Estimated <Text style={{ color: 'red' }}>*</Text></Text>
       <TextInput
         style={styles.input}
         value={estimatedTime}
         onChangeText={setTimeEstimated}
         placeholder="Enter time estimated"
       />
-      <Text style={styles.label}>Difficulty Level:</Text>
+      <Text style={styles.label}>Difficulty Level <Text style={{ color: 'red' }}>*</Text></Text>
       <TextInput
         style={styles.input}
         value={difficulty}
         onChangeText={setDifficulty}
         placeholder="Enter difficulty level"
       />
-      <Text style={styles.label}>Description:</Text>
+      <Text style={styles.label}>Description</Text>
       <TextInput
         style={styles.input}
         value={description}
         onChangeText={setDescription}
-        placeholder="Enter difficulty level"
+        placeholder="Enter description"
       />
       <TouchableOpacity style={styles.updateButton} onPress={handleSave}>
         <Text style={styles.updateButtonText}>Save</Text>

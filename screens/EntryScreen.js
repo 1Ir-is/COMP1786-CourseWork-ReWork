@@ -77,8 +77,7 @@ const EntryScreen = ({ navigation }) => {
       !length || 
       !weatherForecast || 
       !estimatedTime || 
-      !difficulty || 
-      !description
+      !difficulty
     ){
       Alert.alert("Error", "Please enter all the required information");
       return;
@@ -125,7 +124,9 @@ const EntryScreen = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
     <View style={styles.label}>
-      <Text>Name of the hike</Text>
+      <Text>
+        Name of the hike <Text style={{ color: 'red' }}>*</Text>
+      </Text>
       <TextInput
         style={styles.input}
         value={name}
@@ -133,7 +134,9 @@ const EntryScreen = ({ navigation }) => {
         placeholder="Enter name"
       />
 
-      <Text>Location</Text>
+      <Text>
+        Location <Text style={{ color: 'red' }}>*</Text>
+      </Text>
       <TextInput
         style={styles.input}
         value={location}
@@ -141,8 +144,13 @@ const EntryScreen = ({ navigation }) => {
         placeholder="Enter location"
       />
 
-      <Text>Date of the hike</Text>
-        <Button onPress={showDatepicker} title={dateButtonText} />
+      <Text style = {{ marginBottom: 10 }}>
+        Date of the hike <Text style={{ color: 'red' }}>*</Text>
+      </Text>
+        <Button 
+          onPress={showDatepicker} 
+          title={dateButtonText} 
+        />
         {show && (
           <DateTimePicker
             testID="dateTimePicker"
@@ -154,7 +162,9 @@ const EntryScreen = ({ navigation }) => {
           />
         )}
 
-      <Text>Parking Available</Text>
+      <Text style = {{ marginBottom: 10, marginTop: 10 }}>
+        Parking Available <Text style={{ color: 'red' }}>*</Text>
+      </Text>
       <View style={styles.radioGroup}>
         <TouchableOpacity
           style={styles.radioButtonLabelYes}
@@ -197,7 +207,9 @@ const EntryScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <Text>Length of the hike</Text>
+      <Text>
+        Length of the hike <Text style={{ color: 'red' }}>*</Text>
+      </Text>
       <TextInput
         style={styles.input}
         value={length}
@@ -206,7 +218,9 @@ const EntryScreen = ({ navigation }) => {
         keyboardType="numeric"
       />
 
-      <Text>Weather Forecast</Text>
+      <Text>
+        Weather Forecast <Text style={{ color: 'red' }}>*</Text>
+      </Text>
       <Picker
         selectedValue={weatherForecast}
         onValueChange={(itemValue, itemIndex) =>
@@ -218,7 +232,9 @@ const EntryScreen = ({ navigation }) => {
         <Picker.Item label="Snowy" value="Snowy" />
       </Picker>
 
-      <Text>Time Start</Text>
+      <Text style = {{ marginBottom: 10 }}>
+        Time Start <Text style={{ color: 'red' }}>*</Text>
+      </Text>
       <Button onPress={showTimepicker} title={estimatedTime ? estimatedTime : 'Select Time'} />
           {showTime && (
             <DateTimePicker
@@ -236,7 +252,9 @@ const EntryScreen = ({ navigation }) => {
             />
           )}
 
-      <Text>Difficulty Level</Text>
+      <Text style = {{ marginTop: 10 }}>
+        Difficulty Level <Text style={{ color: 'red' }}>*</Text>
+      </Text>
       <Picker
         selectedValue={difficulty}
         onValueChange={(itemValue, itemIndex) =>
@@ -255,7 +273,7 @@ const EntryScreen = ({ navigation }) => {
         onChangeText={(text) => setDescription(text)}
         placeholder="Enter description"
       />
-      <TouchableOpacity style={{ backgroundColor: 'green', padding: 16, borderRadius: 4 }} onPress={handleAddTodo}>
+      <TouchableOpacity style={{ backgroundColor: 'green', padding: 16, borderRadius: 10 }} onPress={handleAddTodo}>
         <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Add Hike</Text>
       </TouchableOpacity>
     </View>
@@ -277,6 +295,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 4,
+    marginTop: 10,
     marginBottom: 16,
     padding: 8,
   },
