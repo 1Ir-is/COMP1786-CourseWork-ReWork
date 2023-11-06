@@ -84,6 +84,20 @@ const EntryScreen = ({ navigation }) => {
       return;
     }
 
+    // Validate name
+    const nameRegex = /^[A-Za-z\s]+$/;
+    if (!nameRegex.test(name)) {
+      Alert.alert("Error", "Please enter a valid name for the hike!");
+      return;
+    }
+
+    // Validate location
+    const locationRegex = /^[A-Za-z0-9\s]+$/;
+    if (!locationRegex.test(location)) {
+      Alert.alert("Error", "Please enter a valid location (letters and numbers only)!");
+      return;
+    }
+
 
     // Convert date to ISO string
     const formattedDate = date.toISOString(); // Convert date to ISO string
@@ -189,6 +203,7 @@ const EntryScreen = ({ navigation }) => {
         value={length}
         onChangeText={(text) => setLength(text)}
         placeholder="Enter length"
+        keyboardType="numeric"
       />
 
       <Text>Weather Forecast</Text>
